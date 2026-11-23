@@ -1,6 +1,6 @@
 # skill-showcase
 
-Skill de Claude Code que genera en Figma la documentación de cualquier sistema de diseño (color, tipografía, espaciado y radios) con componentes reutilizables, instancias enlazadas a variables y revisión de accesibilidad WCAG integrada. Cada showcase sale bien estructurado, fácil de mantener y accesible desde el primer momento.
+Skill de Claude Code que documenta en Figma los tokens de un sistema de diseño (color, tipografía, espaciado y radios) con componentes reutilizables, instancias enlazadas a variables y revisión de contraste WCAG en los colores. Cada showcase sale bien estructurado, fácil de mantener y accesible desde el primer momento.
 
 ## Qué incluye
 
