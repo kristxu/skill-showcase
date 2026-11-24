@@ -1,10 +1,22 @@
 # skill-showcase
 
-Skill de Claude Code que documenta en Figma los tokens de un sistema de diseño (color, tipografía, espaciado y radios) con componentes reutilizables, instancias enlazadas a variables y revisión de contraste WCAG en los colores. Cada showcase sale bien estructurado, fácil de mantener y accesible desde el primer momento.
+Skill de Claude Code que documenta en Figma los tokens de un sistema de diseño o del CSS de una web (color, tipografía, espaciado, radios y sombras) con componentes reutilizables e instancias enlazadas a variables. Antes de empezar pregunta qué tokens y qué nivel quieres: una paleta sencilla para consultar o un sistema completo con semánticos por modo y revisión de contraste WCAG.
 
 ## Qué incluye
 
-- [`showcase-tokens/SKILL.md`](showcase-tokens/SKILL.md): la skill. Monta en Figma un showcase de los tokens de un sistema de diseño (color, tipografía, espaciado o radios) con componentes reutilizables en una sección "_Componentes" y todas las muestras como instancias enlazadas a variables. En los showcases de color añade siempre una sección de accesibilidad con el contraste WCAG.
+- [`showcase-tokens/SKILL.md`](showcase-tokens/SKILL.md): la skill. Monta en Figma una página de consulta de los tokens con componentes base en una sección "_Componentes" y todas las muestras como instancias enlazadas a variables. Si cambias un componente o una variable, todo el showcase se actualiza.
+
+## Dos niveles
+
+Si no lo dices en la petición, la skill pregunta antes de generar nada:
+
+- **Sencillo:** paleta o escala agrupada por uso (marca, estados, neutros, superficies, transparencias), con nombre, valor y uso de cada token. Rápido, para tener una referencia visual.
+- **Completo:** primitivos y semánticos por modo, ejemplos de uso y, en color, una sección de accesibilidad con el contraste WCAG 2.2 de cada par y propuestas para los que fallan.
+
+## De dónde saca los tokens
+
+- **Un archivo de Figma** con variables: las lee tal cual, con sus modos, alias y scopes.
+- **Una web** (pasándole la URL): descarga el HTML y todas sus hojas de estilo sin navegador y copia los valores como variables en un archivo nuevo. Detecta temas por clase y calcula los tamaños de letra fluidos a 1440 y 375 px. Si la web bloquea la descarga, te avisa y te propone qué hacer: usar el MCP de Playwright (recomendado), guardar tú la página o pasarle las hojas CSS.
 
 ## Cómo instalarla
 
@@ -12,6 +24,10 @@ Skill de Claude Code que documenta en Figma los tokens de un sistema de diseño 
    - Windows: `C:\Users\<tu-usuario>\.claude\skills\`
    - macOS / Linux: `~/.claude/skills/`
 2. Abre una sesión nueva de Claude Code.
-3. Pide, por ejemplo: *"hazme un showcase de los colores de este archivo de Figma"*.
+3. Pide, por ejemplo: *"hazme un showcase de los colores de este archivo de Figma"* o *"hazme el showcase de colores y tipografía de https://…"*.
 
-Necesita acceso a Figma mediante el conector oficial de Figma o Figma Console (con el plugin Desktop Bridge abierto en el archivo).
+## Qué necesita
+
+- Acceso a Figma mediante el conector oficial de Figma o Figma Console (con el plugin Desktop Bridge abierto en el archivo).
+- Para sacar los tokens de una web: la skill **auditoria-tokens** instalada en la misma carpeta de skills (se publica en un repositorio aparte). La skill usa su script de extracción y su guía para cuando una web no deja descargar el CSS. Con un archivo de Figma no hace falta.
+- Node 18 o posterior, solo para webs.
