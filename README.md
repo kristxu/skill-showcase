@@ -29,5 +29,5 @@ Si no lo dices en la petición, la skill pregunta antes de generar nada:
 ## Qué necesita
 
 - Acceso a Figma mediante el conector oficial de Figma o Figma Console (con el plugin Desktop Bridge abierto en el archivo).
-- Para sacar los tokens de una web: la skill **auditoria-tokens** instalada en la misma carpeta de skills (se publica en un repositorio aparte). La skill usa su script de extracción y su guía para cuando una web no deja descargar el CSS. Con un archivo de Figma no hace falta.
+- Para sacar los tokens de una web: la skill **auditoria-tokens** instalada en la misma carpeta de skills ([skill-auditoria](https://github.com/kristxu/skill-auditoria)). La skill usa su script de extracción y su guía para cuando una web no deja descargar el CSS. Con un archivo de Figma no hace falta.
 - Node 18 o posterior, solo para webs.
