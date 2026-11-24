@@ -22,11 +22,24 @@ Recomienda (primera opción, con "(Recomendado)") **Sencillo** si la fuente es u
 
 **No preguntes** lo que la petición ya diga: "solo la paleta", "algo sencillo" → Sencillo; "con semánticos", "completo", "con accesibilidad", "documenta el sistema" → Completo. Si las dos cosas están claras, empieza directamente.
 
-Si se ha elegido Sencillo y en la fuente ves algo que el usuario debería saber (por ejemplo, contrastes que fallan), menciónalo en el resumen final y ofrece el nivel completo o la skill `auditoria-tokens`. No lo añadas a la página sin preguntar.
+Si se ha elegido Sencillo y en la fuente ves algo que el usuario debería saber (por ejemplo, contrastes que fallan), menciónalo en el resumen final y ofrece el nivel completo o, si está instalada, la skill `auditoria-tokens`. No lo añadas a la página sin preguntar.
 
 ## 1. Antes de empezar
 
-**Si la fuente es una web** (hay una URL en la petición): extrae los valores con el script de la skill de auditoría: `node ~/.claude/skills/auditoria-tokens/scripts/extraer-css-url.js <url> <carpeta>` (carpeta en el scratchpad). No necesita navegador: descarga el HTML y todas las hojas de estilo y escribe `extraccion.json`. Si el JSON trae `aviso` (la web bloquea la descarga, no trae hojas o no hay conexión), no sigas ni intentes saltártelo: avisa y pregunta cómo seguir con las opciones de "Si no se puede conectar" de la skill `auditoria-tokens` (usar el MCP de Playwright, recomendado; guardar la página; pasar las hojas CSS; o dejarlo), y actúa según la respuesta. Las variables CSS de `:root` son los primitivos, y los valores escritos a mano que más se usan van en un grupo `_sin-token`. Si `temas` lista selectores que redefinen muchas variables (temas por clase), en el nivel completo cada uno es un modo de la colección semántica. Los tamaños de fuente fluidos salen evaluados a 1440 y 375 px: úsalos como modos de la tipografía. Sin navegador no se sabe qué valores se ven de verdad en pantalla: dilo en la cabecera. Crea un archivo nuevo y copia esos valores como variables (con `var(--…)` como code syntax cuando exista variable CSS). Así no se inventa nada: todo sale de la web. Los semánticos de una web casi nunca existen en el CSS. En el nivel completo, dedúcelos del selector donde se usa cada valor y dilo en la cabecera.
+**Si la fuente es una web** (hay una URL en la petición): extrae los valores con el script de esta skill: `node ~/.claude/skills/showcase-tokens/scripts/extraer-css-url.js <url> <carpeta>` (carpeta en el scratchpad). No necesita navegador: descarga el HTML y todas las hojas de estilo (también las de otro dominio) y escribe `<carpeta>/extraccion.json`. Si el JSON trae `aviso`, para y sigue "Si no se puede conectar" (abajo). Las variables CSS de `:root` son los primitivos, y los valores escritos a mano que más se usan van en un grupo `_sin-token`. Si `temas` lista selectores que redefinen muchas variables (temas por clase), en el nivel completo cada uno es un modo de la colección semántica. Los tamaños de fuente fluidos salen evaluados a 1440 y 375 px: úsalos como modos de la tipografía. Sin navegador no se sabe qué valores se ven de verdad en pantalla: dilo en la cabecera. Crea un archivo nuevo y copia esos valores como variables (con `var(--…)` como code syntax cuando exista variable CSS). Así no se inventa nada: todo sale de la web. Los semánticos de una web casi nunca existen en el CSS. En el nivel completo, dedúcelos del selector donde se usa cada valor y dilo en la cabecera.
+
+**Si no se puede conectar** (`aviso` en el JSON). No sigas con datos a medias ni intentes saltarte el bloqueo (cambiar de cliente, reintentar con otra identidad, resolver verificaciones): la web ha dicho que no.
+
+1. Di qué ha pasado en una frase, según `aviso.tipo`: `bloqueo` (la web rechaza las descargas sin navegador), `sin-hojas` (el CSS lo genera JavaScript al cargar) o `sin-conexion` (URL mal escrita, web caída o sin internet: pide que compruebe la URL antes de ofrecer lo demás).
+2. Pregunta cómo seguir con la herramienta de preguntas (`AskUserQuestion`), con estas opciones en este orden:
+   - **Usar el MCP de Playwright (Recomendado):** abre la web en un navegador de verdad; salen los valores que se ven en pantalla, a 1440 y 375 px. Si el MCP no está disponible en la sesión, dilo en esta opción y recomienda la siguiente.
+   - **Guardar la página tú:** en el navegador, "Guardar como → Página web completa", y pasar el `.html`.
+   - **Pasar las hojas CSS:** las URLs o archivos `.css` (herramientas de desarrollador, pestaña Red, filtro CSS).
+   - **Dejarlo.**
+3. Según la respuesta:
+   - Playwright: navega a la URL, rechaza las cookies no esenciales y pasa `scripts/extraer-css-web.js` como función a la herramienta que ejecuta JavaScript en la página, guardando el resultado en un archivo, a 1440 y a 375 px. Si hay hojas de otro dominio que no puede leer (`hojasNoAccesibles` > 0), descárgalas con `extraer-css-url.js <url-de-la-hoja.css> <carpeta>`. Cierra el navegador al terminar.
+   - Página guardada: `node scripts/extraer-css-url.js <archivo.html> <carpeta>`.
+   - Hojas CSS: `node scripts/extraer-css-url.js <hoja.css o carpeta> <carpeta> [más hojas…]`.
 
 
 1. **Elegir herramienta:**
@@ -157,4 +170,4 @@ Calcula los ratios con la fórmula de WCAG 2.2 (luminancia relativa) sobre los v
 - No escribir colores a mano: todo va enlazado a variables.
 - No modificar páginas existentes ni las variables originales del sistema.
 - No añadir un bloque explicativo de "por qué componentes e instancias" salvo que se pida.
-- No convertir el showcase en una auditoría. Si lo que se pide es revisar si el sistema está bien, usa la skill `auditoria-tokens`.
+- No convertir el showcase en una auditoría. Si lo que se pide es revisar si el sistema está bien, usa la skill `auditoria-tokens` si está instalada; si no, dilo.

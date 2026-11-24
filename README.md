@@ -5,6 +5,7 @@ Skill de Claude Code que documenta en Figma los tokens de un sistema de diseño 
 ## Qué incluye
 
 - [`showcase-tokens/SKILL.md`](showcase-tokens/SKILL.md): la skill. Monta en Figma una página de consulta de los tokens con componentes base en una sección "_Componentes" y todas las muestras como instancias enlazadas a variables. Si cambias un componente o una variable, todo el showcase se actualiza.
+- [`showcase-tokens/scripts/`](showcase-tokens/scripts/): los scripts para sacar los tokens de una web (`extraer-css-url.js` sin navegador, `extraer-css-web.js` con navegador) y calcular contrastes (`contraste.js`). La skill funciona sola: no necesita ninguna otra skill instalada.
 
 ## Dos niveles
 
@@ -29,5 +30,9 @@ Si no lo dices en la petición, la skill pregunta antes de generar nada:
 ## Qué necesita
 
 - Acceso a Figma mediante el conector oficial de Figma o Figma Console (con el plugin Desktop Bridge abierto en el archivo).
-- Para sacar los tokens de una web: la skill **auditoria-tokens** instalada en la misma carpeta de skills ([skill-auditoria](https://github.com/kristxu/skill-auditoria)). La skill usa su script de extracción y su guía para cuando una web no deja descargar el CSS. Con un archivo de Figma no hace falta.
-- Node 18 o posterior, solo para webs.
+- Node 18 o posterior, solo para sacar los tokens de una web.
+- MCP de Playwright: opcional, solo si una web bloquea la descarga y eliges usar un navegador.
+
+## Skill relacionada
+
+[skill-auditoria](https://github.com/kristxu/skill-auditoria) revisa si un sistema visual está bien (contraste, tokenización, duplicados, escalas) y entrega un informe. Son independientes: puedes instalar una, la otra o las dos.
